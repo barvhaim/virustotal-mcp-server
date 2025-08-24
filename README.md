@@ -29,7 +29,7 @@ This MCP server integrates VirusTotal's extensive security database, allowing AI
 
 1. **Clone and setup:**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/barvhaim/virustotal-mcp-server.git
    cd virustotal-mcp-server
    uv sync
    ```
