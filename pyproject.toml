@@ -1,0 +1,19 @@
+[project]
+name = "virustotal-mcp-server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=2.11.3",
+    "httpx>=0.28.1",
+    "pydantic>=2.11.7",
+    "python-dotenv>=1.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "pre-commit>=4.3.0",
+    "pylint>=3.3.8",
+]
