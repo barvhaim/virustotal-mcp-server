@@ -21,11 +21,37 @@ This MCP server integrates VirusTotal's extensive security database, allowing AI
 
 ### Prerequisites
 
-- Python 3.8+
-- [uv](https://astral.sh/uv) package manager
+- Python 3.8+ or Docker
+- [uv](https://astral.sh/uv) package manager (for local development)
 - VirusTotal API key ([Get one here](https://www.virustotal.com/gui/my-apikey))
 
 ### Installation
+
+#### Option 1: Docker (Recommended)
+
+1. **Clone and setup:**
+   ```bash
+   git clone https://github.com/barvhaim/virustotal-mcp-server.git
+   cd virustotal-mcp-server
+   ```
+
+2. **Configure API key:**
+   ```bash
+   echo "VIRUSTOTAL_API_KEY=your_api_key_here" > .env
+   ```
+
+3. **Run with Docker Compose:**
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Or run with Docker directly:**
+   ```bash
+   docker build -t virustotal-mcp .
+   docker run -d --name virustotal-mcp -p 8000:8000 --env-file .env virustotal-mcp
+   ```
+
+#### Option 2: Local Development
 
 1. **Clone and setup:**
    ```bash

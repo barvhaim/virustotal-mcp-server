@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  virustotal-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: virustotal-mcp-server
+    environment:
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    volumes:
+      # Mount .env file if it exists (optional)
+      - ./.env:/app/.env:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - mcp-network
+
+networks:
+  mcp-network:
+    driver: bridge
