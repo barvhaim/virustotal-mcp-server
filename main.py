@@ -384,4 +384,7 @@ async def get_domain_relationship(
 
 if __name__ == "__main__":
     transport = os.getenv("MCP_TRANSPORT", "sse")
-    mcp.run(transport=transport, host="0.0.0.0", port=8000)
+    if transport == "stdio":
+        mcp.run(transport=transport)
+    else:
+        mcp.run(transport=transport, host="0.0.0.0", port=8000)
