@@ -9,9 +9,8 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: pylint
-        language: python
+        entry: uv run pylint
+        language: system
         types: [python]
         require_serial: false
-        additional_dependencies: []
         minimum_pre_commit_version: "0.15.0"

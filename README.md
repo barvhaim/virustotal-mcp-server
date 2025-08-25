@@ -167,6 +167,7 @@ To connect this server to Claude Desktop, add the following to your `claude_desk
       ],
       "env": {
         "VIRUSTOTAL_API_KEY": "your_api_key_here",
+        "MCP_TRANSPORT": "stdio"
       }
     }
   }
