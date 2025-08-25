@@ -49,6 +49,41 @@ async def query_virustotal(
         raise ValueError(f"VirusTotal API error: {str(exc)}") from exc
 
 
+def format_relationship_item(item: Dict[str, Any]) -> str:
+    """Format a single relationship item for display."""
+    if item.get("type") == "domain":
+        return f"  - Domain: {item.get('id', 'Unknown')}"
+    if item.get("type") == "ip_address":
+        return f"  - IP: {item.get('id', 'Unknown')}"
+    if item.get("type") == "file":
+        return f"  - File: {item.get('id', 'Unknown')}"
+    if item.get("type") == "url":
+        return f"  - URL: {item.get('id', 'Unknown')}"
+
+    if "attributes" in item:
+        attrs = item["attributes"]
+        if "host_name" in attrs and "ip_address" in attrs:
+            date_str = attrs.get("date", "unknown date")
+            return (
+                f"  - {attrs['host_name']} → "
+                f"{attrs['ip_address']} (resolved {date_str})"
+            )
+        if "certificate_id" in attrs:
+            cert_id = attrs["certificate_id"]
+            validity = attrs.get("validity", {})
+            not_before = validity.get("not_before", "unknown")
+            not_after = validity.get("not_after", "unknown")
+            return f"  - SSL Cert: {cert_id} (valid {not_before} - {not_after})"
+
+        item_type = item.get("type", "Unknown")
+        item_id = item.get("id", str(attrs)[:50])
+        return f"  - {item_type}: {item_id}"
+
+    item_type = item.get("type", "Unknown")
+    item_id = item.get("id", "Unknown")
+    return f"  - {item_type}: {item_id}"
+
+
 def format_scan_results(data: Dict[str, Any], scan_type: str) -> str:
     """Format scan results for display."""
     output = [f"# {scan_type.title()} Analysis Report\n"]
@@ -75,6 +110,8 @@ def format_scan_results(data: Dict[str, Any], scan_type: str) -> str:
                     output.append(
                         f"- {rel_type.replace('_', ' ').title()}: {len(items)} items"
                     )
+                    for item in items:
+                        output.append(format_relationship_item(item))
                 elif items:
                     output.append(f"- {rel_type.replace('_', ' ').title()}: 1 item")
         output.append("")
